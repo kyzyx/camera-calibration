@@ -1,0 +1,47 @@
+-=-=-=-=-=-=-=-=-=-
+Vignette Correction
+-=-=-=-=-=-=-=-=-=-
+
+Goal: My images darken towards the edges, and I want to get rid of that
+Technical goal: Find a radial function that defines how much a pixel darkens
+                as it gets farther from the image center
+ 
+These are a set of MATLAB tools to perform vignette correction on images
+
+--------------------------------
+Recovering the vignette function
+--------------------------------
+ 1. Find one or more scenes and camera positions such that most of each image
+    is covered by a single diffuse surface of a consistent color.
+ 2. Take one or more images from each viewpoint. It is recommended that you
+    average several images to reduce the effects of noise
+ 3. If there are sections of the image that do not satisfy the diffuse surface
+    assumption (e.g. at the edges), you can use a tool such as photoshop or
+    gimp to create a mask that is black everywhere except where the
+    imperfections are located.
+ 4. Create a text file containing the list of images and the mask files.
+    E.g. imagelist.txt
+ 
+      image1.png mask1.png
+      image2.png mask2.png
+      image3.png mask3.png
+
+    etc.
+ 5. Run the following command in MATLAB or octave. If you want to fit a higher
+    degree polynomial, then change the 3 to something larger
+      $ matlab
+         > coef = dovignette('imagelist.txt', 3);
+         > save('vignette.mat', 'coef');
+
+-----------------------------------
+Vignette correcting a set of images
+-----------------------------------
+ 1. Capture images
+ 2. Create a text file with a list of the image filenames
+ 3. Run the following command in MATLAB or octave.
+      $ matlab
+         > load('vignette.mat');
+         > batchconvertvignette('imagelist.txt', coef);
+    This will create one file for each input image. The filenames will be
+    the input filenames with a _corrected appended, of the same format as
+    the input file. For example, image001.png => image001_corrected.png

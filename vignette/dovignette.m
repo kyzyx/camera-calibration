@@ -1,4 +1,4 @@
-function coef = dovignette(imagelist)
+function coef = dovignette(imagelist, degree)
     [imfiles maskfiles] = textread(imagelist, "%s %s");
     n = length(imfiles);
 
@@ -7,4 +7,4 @@ function coef = dovignette(imagelist)
         masks(:,:,:,i) = imread(maskfiles{i});
     end
 
-    coef = vignette(images, masks, 3);
+    coef = vignette(images, masks, degree);
