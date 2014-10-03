@@ -12,12 +12,21 @@ purpose of processing high dynamic range (HDR) images.
 --------------------------------
 Recovering the response function
 --------------------------------
- 1. Find a scene and camera position such that the image has a high dynamic
-    range visible without moving the camera. (An outdoor scene is recommended)
- 2. Take several images at each exposure level, without moving the camera.
- 3. It is recommended to average a few images at each exposure level to reduce
+   PART 1: Capturing Raw Data
+--------------------------------
+Find a scene and camera position such that the image has a high dynamic
+range visible without moving the camera. (An outdoor scene is recommended)
+
+Option 1: Using an OpenNI2-compatible camera
+    Run the data_grabber application with an image output folder and an
+    imagelist file:
+      $ data_grabber images/ imagelist.txt
+Option 2: Other camera
+    Take several images at each exposure level, without moving the camera.
+    It is recommended to average a few images at each exposure level to reduce
     the effects of noise.
- 4. Create a text file containing the list of image names and the exposures
+
+    Create a text file containing the list of image names and the exposures
     they were taken at:
     E.g. imagelist.txt, containing 3 lines
      
@@ -26,9 +35,13 @@ Recovering the response function
         image3.png 1.00 
          
     etc.
-
- 5. Run the following command in MATLAB or octave. Use an appropriate value for
-    lambda; here we have lambda=42
+--------------------------------
+Recovering the response function
+--------------------------------
+ PART 2: Computing the function
+--------------------------------
+Run the following command in MATLAB or octave. Use an appropriate value for
+lambda; here we have lambda=42
       $ matlab
          > g = makehdr('imagelist.txt', 42);
          > save('response.mat', 'g');
