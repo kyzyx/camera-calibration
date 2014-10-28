@@ -3,8 +3,8 @@ function coef = dovignette(imagelist, degree)
     n = length(imfiles);
 
     for i=1:n
-        images(:,:,:,i) = imread(imfiles{i});
-        masks(:,:,:,i) = imread(maskfiles{i});
+        images(:,:,:,i) = readImage(imfiles{i});
+        masks(:,:,:,i) = readImage(maskfiles{i});
     end
 
     coef = vignette(images, masks, degree);

@@ -3,7 +3,7 @@ function batchconvertvignette(imagelist, coef)
     n = length(filenames);
 
     % Construct distance matrix
-    tmp = imread(filenames{1});
+    tmp = readImage(filenames{1});
     w = size(tmp,2);
     h = size(tmp,1);
     d = size(coef,1);
@@ -18,7 +18,7 @@ function batchconvertvignette(imagelist, coef)
     end
 
     for i=1:n
-        image = imread(filenames{i});
+        image = readImage(filenames{i});
         if length(size(image)) != 3
             im(:,:,1) = image;
             im(:,:,2) = image;
@@ -26,6 +26,7 @@ function batchconvertvignette(imagelist, coef)
             image = im;
         end
         vcim = image./vtable;
-        [~,fileroot,fileext] = fileparts(filenames{i});
-        imwrite(vcim, [fileroot "_corrected" fileext]);
+        [filepath,fileroot,fileext] = fileparts(filenames{i});
+        filename = fullfile(filepath, [fileroot "_corrected" fileext]);
+        writeImage(vcim, filename);
     end
